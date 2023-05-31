@@ -52,7 +52,16 @@ const addToCart = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.addToCart = addToCart;
 const deleteFromCart = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { itemId } = req.query;
+        const { itemId, clearAll } = req.query;
+        if (clearAll === "true") {
+            const result = yield cart_1.Cart.deleteMany({});
+            if (result.deletedCount === 0) {
+                throw new errors_1.NotFoundError("No items in the cart to delete");
+            }
+            return res.status(http_status_codes_1.StatusCodes.OK).json({
+                msg: "All items deleted from cart",
+            });
+        }
         if (!itemId) {
             throw new errors_1.BadRequestError("itemId is required");
         }

@@ -46,7 +46,18 @@ export const addToCart = async (req: Request, res: Response) => {
 
 export const deleteFromCart = async (req: Request, res: Response) => {
   try {
-    const { itemId } = req.query;
+    const { itemId, clearAll } = req.query;
+
+    if (clearAll === "true") {
+      const result = await Cart.deleteMany({});
+
+      if (result.deletedCount === 0) {
+        throw new NotFoundError("No items in the cart to delete");
+      }
+      return res.status(StatusCodes.OK).json({
+        msg: "All items deleted from cart",
+      });
+    }
 
     if (!itemId) {
       throw new BadRequestError("itemId is required");
