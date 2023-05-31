@@ -1,5 +1,4 @@
 import { useState, useEffect, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
 import CartProducts from "../Header/cartProducts";
 import styles from "./ProductPagination.module.scss";
 import {

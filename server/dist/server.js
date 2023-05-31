@@ -23,6 +23,7 @@ const express_mongo_sanitize_1 = __importDefault(require("express-mongo-sanitize
 const middleware_1 = require("./middleware/");
 const connect_1 = require("./db/connect");
 const productRoutes_1 = __importDefault(require("./routes/productRoutes"));
+const cartRoutes_1 = __importDefault(require("./routes/cartRoutes"));
 const app = (0, express_1.default)();
 const port = process.env.PORT || 5000;
 //middleware & security
@@ -36,6 +37,7 @@ app.use((0, xss_clean_1.default)());
 app.use((0, express_mongo_sanitize_1.default)());
 //routes
 app.use("/api/v1/products", productRoutes_1.default);
+app.use("/api/v1/cart", cartRoutes_1.default);
 // error handling
 app.use(middleware_1.notFoundMiddleware);
 app.use(middleware_1.errorHandlerMiddleware);

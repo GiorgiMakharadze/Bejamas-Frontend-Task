@@ -136,20 +136,20 @@ const productsStore = create<StoreState>((set) => ({
       set({ loading: false });
     }
   },
-  deleteFromCart: async (itemId: string) => {
+  deleteFromCart: async (cartItemId: string) => {
     try {
       set({ loading: true });
 
-      const response = await dataFetch.delete(url2, { data: { itemId } });
+      const response = await dataFetch.delete(`${url2}?itemId=${cartItemId}`);
 
       if (response.status !== HttpStatus.OK) {
         throw new Error("Error deleting item from cart");
       }
 
-      console.log("Item deleted from cart:", itemId);
+      console.log("Item deleted from cart");
 
       set((state) => ({
-        cart: state.cart.filter((item) => item._id !== itemId),
+        cart: state.cart.filter((item) => item._id !== cartItemId),
       }));
     } catch (error: Error | any) {
       if (error.response) {
@@ -174,33 +174,6 @@ const productsStore = create<StoreState>((set) => ({
       console.log("Cart cleared");
 
       set({ cart: [] });
-    } catch (error: Error | any) {
-      if (error.response) {
-        set({ error: HttpStatus.getStatusText(error.response.status) });
-      } else {
-        set({ error: error.message });
-      }
-    } finally {
-      set({ loading: false });
-    }
-  },
-  deleteCartItem: async (cartItemId: string) => {
-    try {
-      set({ loading: true });
-
-      const response = await dataFetch.delete(
-        `${url2}/?cartItemId=${cartItemId}`
-      );
-
-      if (response.status !== HttpStatus.OK) {
-        throw new Error("Error deleting item from cart");
-      }
-
-      console.log("Item deleted from cart");
-
-      set((state) => ({
-        cart: state.cart.filter((item) => item._id !== cartItemId),
-      }));
     } catch (error: Error | any) {
       if (error.response) {
         set({ error: HttpStatus.getStatusText(error.response.status) });

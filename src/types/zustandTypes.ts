@@ -22,5 +22,5 @@ export interface StoreState {
   addToCart: (productId: string) => Promise<void>;
   fetchCartData: () => Promise<void>;
   clearCart: () => Promise<void>;
-  deleteCartItem: (cartItemId: string) => Promise<void>;
+  deleteFromCart: (itemId: string) => Promise<void>;
 }

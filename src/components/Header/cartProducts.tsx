@@ -3,22 +3,18 @@ import styles from "./Header.module.scss";
 import { x } from "../../assets/svg";
 
 const CartProducts = ({ setShowCart }: any) => {
-  const { cart, deleteCartItem, clearCart } = productsStore();
+  const { cart, clearCart, deleteFromCart } = productsStore();
 
   const clearCartHandler = async () => {
     await clearCart();
     setShowCart(false);
   };
 
-  const deleteCartItemHandler = async (cartItemId: string) => {
-    await deleteCartItem(cartItemId);
+  const handleDeleteClick = async (cartItemId: string) => {
+    await deleteFromCart(cartItemId);
     if (cart.length <= 1) {
       setShowCart(false);
     }
-  };
-
-  const handleDeleteClick = async (cartItemId: string) => {
-    await deleteCartItemHandler(cartItemId);
   };
 
   return (
