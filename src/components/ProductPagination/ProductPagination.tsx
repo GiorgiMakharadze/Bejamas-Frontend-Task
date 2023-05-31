@@ -1,5 +1,4 @@
-import { useState, useEffect, useMemo, useRef } from "react";
-import CartProducts from "../Header/cartProducts";
+import { useState, useEffect, useMemo, useRef, lazy, Suspense } from "react";
 import styles from "./ProductPagination.module.scss";
 import {
   arrowup,
@@ -13,6 +12,7 @@ import Filter from "./Filter/Filter";
 import FilterPopUp from "./Filter/FilterPopUp";
 import productsStore from "../../store";
 import { Product } from "../../types/productTypes";
+const CartProducts = lazy(() => import("../Header/cartProducts"));
 
 const ProductPagination = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -197,6 +197,7 @@ const ProductPagination = () => {
                 alt={product.image.alt}
                 width={300}
                 height={390}
+                loading="lazy"
                 ref={(el) => (imageRefs.current[productIndex] = el)}
               />
               <button
@@ -253,7 +254,11 @@ const ProductPagination = () => {
           )}
         </div>
       </div>
-      {showCart && <CartProducts setShowCart={setShowCart} />}
+      {showCart && (
+        <Suspense fallback={<div>Loading...</div>}>
+          <CartProducts setShowCart={setShowCart} />
+        </Suspense>
+      )}
     </div>
   );
 };

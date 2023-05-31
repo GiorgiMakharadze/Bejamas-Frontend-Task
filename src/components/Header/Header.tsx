@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, Suspense, lazy } from "react";
 import productsStore from "../../store";
 import Bejamas from "../../assets/svg/bejamas.svg";
 import Cart from "../../assets/svg/cart.svg";
 import styles from "./Header.module.scss";
-import CartProducts from "./cartProducts";
+
+const CartProducts = lazy(() => import("./cartProducts"));
 
 const Header = () => {
   const { cart } = productsStore();
@@ -21,7 +22,9 @@ const Header = () => {
         <div className={styles.cartCount}>{cart.length}</div>
       </div>
       {showCart && (
-        <CartProducts showCart={showCart} setShowCart={setShowCart} />
+        <Suspense fallback={<div>Loading...</div>}>
+          <CartProducts showCart={showCart} setShowCart={setShowCart} />
+        </Suspense>
       )}
     </div>
   );

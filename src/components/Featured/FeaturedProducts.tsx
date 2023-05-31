@@ -1,8 +1,8 @@
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, lazy, Suspense } from "react";
 import productsStore from "../../store";
-import CartProducts from "../Header/cartProducts";
-import FeaturedBadge from "./FeatureaedBadge";
 import styles from "./FeaturedProducts.module.scss";
+const CartProducts = lazy(() => import("../Header/cartProducts"));
+const FeaturedBadge = lazy(() => import("./FeatureaedBadge"));
 
 const FeaturedProducts = () => {
   const [showCart, setShowCart] = useState(false);
@@ -71,9 +71,12 @@ const FeaturedProducts = () => {
               src={imageVisible ? image.src : ""}
               alt={image.alt}
               ref={imageRef}
+              loading="lazy"
             />
           </div>
-          {featured && <FeaturedBadge />}
+          <Suspense fallback={<div>Loading...</div>}>
+            {featured && <FeaturedBadge />}
+          </Suspense>
         </div>
         <div className={styles.contentContainer}>
           <div className={styles.aboutContainer}>
@@ -98,6 +101,7 @@ const FeaturedProducts = () => {
                 className={styles.photos}
                 src={rec.src}
                 alt={rec.alt}
+                loading="lazy"
               />
             ))}
             <h2>Details</h2>
@@ -115,9 +119,11 @@ const FeaturedProducts = () => {
           </div>
         </div>
       </div>
-      {showCart && <CartProducts setShowCart={setShowCart} />}
+      <Suspense fallback={<div>Loading...</div>}>
+        {showCart && <CartProducts setShowCart={setShowCart} />}
+      </Suspense>
     </div>
   );
 };
 
-export default FeaturedProducts;
+export default React.memo(FeaturedProducts);

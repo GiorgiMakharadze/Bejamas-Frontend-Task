@@ -17,6 +17,7 @@ const priceList = [
   { label: "$100 - $200", min: 100, max: 200 },
   { label: "More than $200", min: 200, max: Infinity },
 ];
+
 const Filter = () => {
   return (
     <div className={styles.filterContainer}>

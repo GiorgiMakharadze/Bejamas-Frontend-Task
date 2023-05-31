@@ -1,8 +1,9 @@
 import productsStore from "../../store";
 import styles from "./Header.module.scss";
 import { x } from "../../assets/svg";
+import { memo } from "react";
 
-const CartProducts = ({ setShowCart }: any) => {
+const CartProducts = memo(({ setShowCart }: any) => {
   const { cart, clearCart, deleteFromCart } = productsStore();
 
   const clearCartHandler = async () => {
@@ -10,7 +11,7 @@ const CartProducts = ({ setShowCart }: any) => {
     setShowCart(false);
   };
 
-  const handleDeleteClick = async (cartItemId: string) => {
+  const handleDeleteClick = (cartItemId: string) => async () => {
     await deleteFromCart(cartItemId);
     if (cart.length <= 1) {
       setShowCart(false);
@@ -26,7 +27,7 @@ const CartProducts = ({ setShowCart }: any) => {
               <div className={styles.deleteBtnContainer}>
                 <button
                   className={styles.deleteBtn}
-                  onClick={() => handleDeleteClick(item._id)}
+                  onClick={handleDeleteClick(item._id)}
                 >
                   <img src={x} alt="x delete svg icon" width={18} height={18} />
                 </button>
@@ -58,6 +59,6 @@ const CartProducts = ({ setShowCart }: any) => {
       )}
     </div>
   );
-};
+});
 
 export default CartProducts;

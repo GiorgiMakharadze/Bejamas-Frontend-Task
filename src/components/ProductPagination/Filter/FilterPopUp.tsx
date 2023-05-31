@@ -1,7 +1,23 @@
 import { x } from "../../../assets/svg";
 import styles from "./filter.module.scss";
 
-const FilterPopUp = ({ onClose, onClear }: any) => {
+const categoryList = [
+  "People",
+  "Premium",
+  "Pets",
+  "Food",
+  "Landmarks",
+  "Cities",
+  "Nature",
+];
+const priceList = [
+  { label: "Lower than $20", min: 0, max: 20 },
+  { label: "$20 - $100", min: 20, max: 100 },
+  { label: "$100 - $200", min: 100, max: 200 },
+  { label: "More than $200", min: 200, max: Infinity },
+];
+
+const FilterPopUp = ({ onClose }: any) => {
   const handleClose = () => {
     onClose();
   };
@@ -24,55 +40,26 @@ const FilterPopUp = ({ onClose, onClear }: any) => {
             </button>
           </div>
           <div className={styles.checkboxContainer}>
-            <label className={styles.checkboxLabel} htmlFor="People">
-              <input type="checkbox" id="People" />
-              People
-            </label>
-            <label className={styles.checkboxLabel} htmlFor="Premium">
-              <input type="checkbox" id="Premium" />
-              Premium
-            </label>
-            <label className={styles.checkboxLabel} htmlFor="Pets">
-              <input type="checkbox" id="Pets" />
-              Pets
-            </label>
-            <label className={styles.checkboxLabel} htmlFor="Food">
-              <input type="checkbox" id="Food" />
-              <span className={styles.checkmark}></span>
-              Food
-            </label>
-            <label className={styles.checkboxLabel} htmlFor="Landmarks">
-              <input type="checkbox" id="Landmarks" />
-              Landmarks
-            </label>
-            <label className={styles.checkboxLabel} htmlFor="Cities">
-              <input type="checkbox" id="Cities" />
-              Cities
-            </label>
-            <label className={styles.checkboxLabel} htmlFor="Nature">
-              <input type="checkbox" id="Nature" />
-              Nature
-            </label>
+            {categoryList.map((category) => (
+              <label
+                key={category}
+                className={styles.checkboxLabel}
+                htmlFor={category}
+              >
+                <input type="checkbox" id={category} name={category} />
+                {category}
+              </label>
+            ))}
           </div>
           <div className={styles.filterSection}>
             <h3>Price Range</h3>
             <div className={styles.checkboxContainer}>
-              <label className={styles.priceLabel}>
-                <input type="checkbox" />
-                Lower than $20
-              </label>
-              <label className={styles.priceLabel}>
-                <input type="checkbox" />
-                $20 - $100
-              </label>
-              <label className={styles.priceLabel}>
-                <input type="checkbox" />
-                $100 - $200
-              </label>
-              <label className={styles.priceLabel}>
-                <input type="checkbox" />
-                More than $200
-              </label>
+              {priceList.map((price) => (
+                <label key={price.label} className={styles.priceLabel}>
+                  <input type="checkbox" checked={false} />
+                  {price.label}
+                </label>
+              ))}
             </div>
           </div>
           <div className={styles.buttons}>

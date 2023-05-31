@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const path_1 = __importDefault(require("path"));
 require("dotenv/config");
 require("express-async-errors");
 const morgan_1 = __importDefault(require("morgan"));
@@ -26,18 +27,29 @@ const productRoutes_1 = __importDefault(require("./routes/productRoutes"));
 const cartRoutes_1 = __importDefault(require("./routes/cartRoutes"));
 const app = (0, express_1.default)();
 const port = process.env.PORT || 5000;
+const __dirnames = path_1.default.resolve();
 //middleware & security
 if (process.env.NODE_ENV !== "production") {
     app.use((0, morgan_1.default)("dev"));
 }
 app.use(express_1.default.json());
-app.use((0, helmet_1.default)());
+app.use(helmet_1.default.contentSecurityPolicy({
+    directives: Object.assign(Object.assign({}, helmet_1.default.contentSecurityPolicy.getDefaultDirectives()), { "img-src": ["'self'", "data:", "https://res.cloudinary.com"] }),
+}));
 app.use((0, cors_1.default)());
 app.use((0, xss_clean_1.default)());
 app.use((0, express_mongo_sanitize_1.default)());
+app.use(express_1.default.static(path_1.default.resolve("../build")));
 //routes
 app.use("/api/v1/products", productRoutes_1.default);
 app.use("/api/v1/cart", cartRoutes_1.default);
+app.post("/csp-violation", (req, res) => {
+    console.warn("CSP Violation:", req.body);
+    res.status(204).end();
+});
+app.get("*", (req, res) => {
+    res.sendFile(path_1.default.join(__dirnames, "../build", "index.html"));
+});
 // error handling
 app.use(middleware_1.notFoundMiddleware);
 app.use(middleware_1.errorHandlerMiddleware);
