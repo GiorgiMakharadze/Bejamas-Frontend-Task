@@ -9,6 +9,7 @@ import mongoSanitize from "express-mongo-sanitize";
 import { notFoundMiddleware, errorHandlerMiddleware } from "./middleware/";
 import { connectDB } from "./db/connect";
 import productsRoute from "./routes/productRoutes";
+import cartRoute from "./routes/cartRoutes";
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -25,6 +26,7 @@ app.use(mongoSanitize());
 
 //routes
 app.use("/api/v1/products", productsRoute);
+app.use("/api/v1/cart", cartRoute);
 
 // error handling
 app.use(notFoundMiddleware);

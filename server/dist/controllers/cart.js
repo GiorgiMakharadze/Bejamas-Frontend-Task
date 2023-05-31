@@ -9,6 +9,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllCart = void 0;
-const getAllCart = (req, res) => __awaiter(void 0, void 0, void 0, function* () { });
-exports.getAllCart = getAllCart;
+exports.addToCart = void 0;
+const addToCart = (req, res) => __awaiter(void 0, void 0, void 0, function* () { });
+exports.addToCart = addToCart;
