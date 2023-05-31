@@ -28,7 +28,7 @@
   "scripts": {
     "setup-production": "npm install && npm run build && npm run install-server",
     "client": "react-scripts start",
-    "install-server": "cd api && npm install",
+    "install-server": "cd server && npm install",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "start": "cd server && npm start",
