@@ -1,22 +1,16 @@
 import { useState } from "react";
-import Image from "next/image";
-import FeaturedBadge from "./FeatureaedBadge";
-import productsStore from "@/store";
-import { Product } from "@/types/productTypes";
+import productsStore from "../../store";
 import CartProducts from "../Header/cartProducts";
+import FeaturedBadge from "./FeatureaedBadge";
 import styles from "./FeaturedProducts.module.scss";
 
-const FeaturedProducts = ({
-  featuredProduct,
-}: {
-  featuredProduct: Product;
-}) => {
+const FeaturedProducts = ({ featuredProduct }: any) => {
   const [showCart, setShowCart] = useState(false);
 
   const { details } = featuredProduct;
   const { addToCart } = productsStore();
 
-  const handleAddToCart = async (featuredProductId: string) => {
+  const handleAddToCart = async (featuredProductId: any) => {
     await addToCart(featuredProductId);
     setShowCart(true);
   };
@@ -35,12 +29,10 @@ const FeaturedProducts = ({
               </div>
             </div>
             <div className={styles.imageWrapper}>
-              <Image
+              <img
                 className={styles.img}
                 src={featuredProduct.image.src}
                 alt={featuredProduct.image.alt}
-                width={1650}
-                height={553}
               />
             </div>
             {featuredProduct.featured && <FeaturedBadge />}
@@ -62,14 +54,11 @@ const FeaturedProducts = ({
             <div className={styles.recommendationsContainer}>
               <h3>People also buy</h3>
               {details?.recommendations?.map((rec: any, index: number) => (
-                <Image
+                <img
                   key={index}
                   className={styles.photos}
                   src={rec.src}
                   alt={rec.alt}
-                  width={117}
-                  height={147}
-                  priority
                 />
               ))}
               <h2>Details</h2>

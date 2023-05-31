@@ -1,8 +1,6 @@
-import { useEffect } from "react";
-import Image from "next/image";
-import productsStore from "@/store";
-import { x } from "@/public";
+import productsStore from "../../store";
 import styles from "./Header.module.scss";
+import { x } from "../../public";
 
 const CartProducts = ({ setShowCart }: any) => {
   const { cart, deleteCartItem, clearCart } = productsStore();
@@ -34,12 +32,7 @@ const CartProducts = ({ setShowCart }: any) => {
                   className={styles.deleteBtn}
                   onClick={() => handleDeleteClick(item._id)}
                 >
-                  <Image
-                    src={x}
-                    alt="x delete svg icon"
-                    width={18}
-                    height={18}
-                  />
+                  <img src={x} alt="x delete svg icon" width={18} height={18} />
                 </button>
               </div>
               <div className={styles.productInfo}>
@@ -51,7 +44,7 @@ const CartProducts = ({ setShowCart }: any) => {
                 </p>
               </div>
               <div className={styles.productImage}>
-                <Image
+                <img
                   src={item.products[0].product.image.src}
                   alt={item.products[0].product.image.alt}
                   width={149}

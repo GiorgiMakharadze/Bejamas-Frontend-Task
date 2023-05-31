@@ -1,8 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import { useRouter } from "next/router";
-import Image from "next/image";
-import productsStore from "@/store";
-import { Product, ProductsData } from "@/types/productTypes";
+import { useNavigate } from "react-router-dom";
 import CartProducts from "../Header/cartProducts";
 import styles from "./ProductPagination.module.scss";
 import {
@@ -12,14 +9,16 @@ import {
   chevronleft,
   chevronright,
   filter,
-} from "@/public";
+} from "../../public";
 import Filter from "./Filter/Filter";
 import FilterPopUp from "./Filter/FilterPopUp";
+import productsStore from "../../store";
+import { Product } from "../../types/productTypes";
 
-const ProductPagination = ({
-  products,
-  currentPage,
-}: ProductsData & { currentPage: number }) => {
+const ProductPagination = () => {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
   const [isOptionsOpen, setIsOptionsOpen] = useState(false);
   const [sortType, setSortType] = useState("Price");
   const [sortOrder, setSortOrder] = useState("Ascending");
@@ -29,14 +28,29 @@ const ProductPagination = ({
 
   const sortOptions = ["Price", "Alphabetically"];
 
-  const router = useRouter();
+  const navigate = useNavigate();
   const totalPages = 4;
+
+  useEffect(() => {
+    setIsLoading(true);
+    fetchProductsData(currentPage, 6)
+      .then(() => {
+        const data = productsStore.getState().data;
+        setProducts(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching products:", error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, [currentPage]);
 
   useEffect(() => {
     setIsMobile(window.innerWidth <= 768);
   }, []);
 
-  const { addToCart } = productsStore();
+  const { fetchProductsData, addToCart } = productsStore();
 
   const sortedProducts = useMemo(() => {
     const sorted = [...products];
@@ -99,17 +113,13 @@ const ProductPagination = ({
 
   const handlePreviousPage = () => {
     if (currentPage > 1) {
-      router.push(`/?currentPage=${currentPage - 1}`, undefined, {
-        scroll: false,
-      });
+      navigate(`/?currentPage=${currentPage + 1}`);
     }
   };
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
-      router.push(`/?currentPage=${currentPage + 1}`, undefined, {
-        scroll: false,
-      });
+      navigate(`/?currentPage=${currentPage + 1}`);
     }
   };
 
@@ -124,7 +134,7 @@ const ProductPagination = ({
             onClick={() => setIsOptionsOpen(!isOptionsOpen)}
             className={styles.filterButton}
           >
-            <Image src={filter} alt="filter svg icon" />
+            <img src={filter} alt="filter svg icon" />
           </button>
         )}
         <div className={styles.sortContainer}>
@@ -136,13 +146,13 @@ const ProductPagination = ({
               )
             }
           >
-            <Image src={arrowdown} alt="arrow svg icon" width={7} height={15} />
-            <Image src={arrowup} alt="arrow svg icon" width={7} height={15} />
+            <img src={arrowdown} alt="arrow svg icon" width={7} height={15} />
+            <img src={arrowup} alt="arrow svg icon" width={7} height={15} />
           </button>
           <p>Sort By</p>
           <span>{sortType}</span>
           <button className={styles.sortBtn} onClick={toggleSortDropdown}>
-            <Image
+            <img
               src={chevrondown}
               alt="chevron svg icon"
               width={16}
@@ -167,7 +177,7 @@ const ProductPagination = ({
                 {product.bestseller && (
                   <p className={styles.bestsellerBadge}>Best seller</p>
                 )}
-                <Image
+                <img
                   src={product.image.src}
                   alt={product.image.alt}
                   width={300}
@@ -191,7 +201,7 @@ const ProductPagination = ({
               onClick={handlePreviousPage}
               className={styles.chevronButton}
             >
-              <Image
+              <img
                 src={chevronleft}
                 alt="chevron left icon"
                 width={18}
@@ -207,10 +217,9 @@ const ProductPagination = ({
                 }`}
                 key={pageNumber}
                 onClick={() =>
-                  router.push(
+                  navigate(
                     pageNumber === 1 ? "/" : `/?currentPage=${pageNumber}`,
-                    undefined,
-                    { scroll: false }
+                    undefined
                   )
                 }
               >
@@ -220,7 +229,7 @@ const ProductPagination = ({
           )}
           {currentPage < totalPages && (
             <button onClick={handleNextPage} className={styles.chevronButton}>
-              <Image
+              <img
                 src={chevronright}
                 alt="chevron left icon"
                 width={18}
