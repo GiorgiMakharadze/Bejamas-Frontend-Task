@@ -1,4 +1,4 @@
-import chevronleft from "./chevronLeft.svg";
+import chevronleft from "./chevronleft.svg";
 import chevronright from "./chevronright.svg";
 import chevrondown from "./chevrondown.svg";
 import arrowdown from "./arrowdown.svg";

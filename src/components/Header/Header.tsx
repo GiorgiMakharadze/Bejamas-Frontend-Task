@@ -1,7 +1,7 @@
 import { useState } from "react";
 import productsStore from "../../store";
-import Bejamas from "@/public/bejamas.svg";
-import Cart from "@/public/cart.svg";
+import Bejamas from "../../assets/svg/bejamas.svg";
+import Cart from "../../assets/svg/cart.svg";
 import styles from "./Header.module.scss";
 import CartProducts from "./cartProducts";
 

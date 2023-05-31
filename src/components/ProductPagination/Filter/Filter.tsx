@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import productsStore from "@/store";
+import productsStore from "../../../store";
 import styles from "./filter.module.scss";
 
 const categoryList = [

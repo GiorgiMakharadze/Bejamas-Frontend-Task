@@ -1,5 +1,4 @@
-import Image from "next/image";
-import { x } from "@/public";
+import { x } from "../../../assets/svg";
 import styles from "./filter.module.scss";
 
 const FilterPopUp = ({ onClose, onClear }: any) => {
@@ -21,7 +20,7 @@ const FilterPopUp = ({ onClose, onClear }: any) => {
           <div className={styles.header}>
             <h3>Filter</h3>
             <button onClick={handleClose} className={styles.closeBtn}>
-              <Image src={x} alt="x svg icon" width={18} height={18} />
+              <img src={x} alt="x svg icon" width={18} height={18} />
             </button>
           </div>
           <div className={styles.checkboxContainer}>

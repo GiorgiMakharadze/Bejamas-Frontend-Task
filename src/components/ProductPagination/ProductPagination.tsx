@@ -9,7 +9,7 @@ import {
   chevronleft,
   chevronright,
   filter,
-} from "../../public";
+} from "../../assets/svg";
 import Filter from "./Filter/Filter";
 import FilterPopUp from "./Filter/FilterPopUp";
 import productsStore from "../../store";

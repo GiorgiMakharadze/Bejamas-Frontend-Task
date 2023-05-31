@@ -1,6 +1,6 @@
 import productsStore from "../../store";
 import styles from "./Header.module.scss";
-import { x } from "../../public";
+import { x } from "../../assets/svg";
 
 const CartProducts = ({ setShowCart }: any) => {
   const { cart, deleteCartItem, clearCart } = productsStore();
