@@ -1,0 +1,155 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
+
+.headerContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem;
+  min-width: 370px;
+  width: 100%;
+  height: 8rem;
+  border-bottom: 4px solid #e4e4e4;
+
+  .logo {
+    width: 12rem;
+    height: 2.5rem;
+    margin-left: 4rem;
+  }
+  .cart {
+    position: relative;
+    width: 3.4rem;
+    height: 3.4rem;
+    margin-right: 4rem;
+    cursor: pointer;
+  }
+  .cartCount {
+    position: absolute;
+    bottom: -1.4rem;
+    right: -1.5rem;
+    width: 1.8rem;
+    height: 1.8rem;
+    background-color: black;
+    color: white;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  @media (max-width: 768px) {
+    padding: 1rem;
+
+    .cart {
+      height: 3rem;
+    }
+  }
+}
+
+// CartProducts
+.cartProducts {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  right: 5rem;
+  bottom: 55rem;
+  border: 2px solid #000;
+  background-color: $colorWhite;
+  width: 43.3rem;
+  height: 20.6rem;
+  max-height: 80vh;
+  z-index: 9999;
+  padding: 1rem;
+  overflow-y: auto;
+
+  @media (min-width: 400px) {
+    right: 0;
+    top: 9rem;
+  }
+  @media (min-width: 768px) {
+    right: 0;
+    top: 9rem;
+  }
+
+  @media (min-width: 1200px) {
+    right: 5rem;
+    top: 9rem;
+  }
+
+  .productList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .productItem {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid #000;
+  }
+
+  .productImage {
+    width: 149px;
+    height: 86px;
+    margin-right: 1rem;
+    margin-top: 2rem;
+  }
+
+  .productInfo {
+    flex-grow: 1;
+    margin-top: 2rem;
+  }
+
+  .productName {
+    font-weight: 700;
+    font-size: 2rem;
+    line-height: 2rem;
+    color: $colorBlack;
+  }
+
+  .productPrice {
+    font-weight: 400;
+    font-size: 2.4rem;
+    line-height: 3rem;
+    color: $colorGrey;
+  }
+
+  .deleteBtn {
+    position: absolute;
+    right: 1rem;
+    top: 0.5rem;
+    background: none;
+    border: none;
+    width: 2rem;
+    height: 2rem;
+
+    cursor: pointer;
+  }
+
+  .clearButton {
+    margin-top: 1rem;
+    width: 100%;
+    height: 4.5rem;
+    background-color: $colorWhite;
+    color: $colorBlack;
+    border: 1px solid $colorBlack;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+
+    font-weight: 500;
+    font-size: 1.7rem;
+
+    &:hover {
+      @include buttonHover(#8b0000, white);
+    }
+  }
+
+  .emptyMessage {
+    @include flexCenter;
+    font-weight: 700;
+    font-size: 2rem;
+    color: $colorBlack;
+  }
+}

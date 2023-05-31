@@ -1,0 +1,13 @@
+@import "./variables.scss";
+
+@mixin flexCenter($justify: center, $align: center) {
+  display: flex;
+  justify-content: $justify;
+  align-items: $align;
+}
+@mixin buttonHover($backgroundColor, $color) {
+  transition: 0.3s;
+  background-color: lighten($backgroundColor, 15%);
+  color: $color;
+  font-weight: 500;
+}
