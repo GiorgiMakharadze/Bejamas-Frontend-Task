@@ -5,7 +5,7 @@ import { StoreState } from "./types/zustandTypes";
 import { Product } from "./types/productTypes";
 
 const dataFetch = axios.create({
-  baseURL: `${process.env.REACT_APP_DEPLOYMENT_PORT}/api/v1`,
+  baseURL: `http://localhost:5000/api/v1`,
 });
 
 let url = `/products`;
