@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import CartProducts from "../Header/cartProducts";
 import styles from "./ProductPagination.module.scss";
 import {
@@ -95,6 +95,36 @@ const ProductPagination = () => {
     setDropdownOpen(!dropdownOpen);
   };
 
+  const imageRefs = useRef<any[]>(Array(products.length).fill(null));
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const img = entry.target as HTMLImageElement;
+            img.src = img.dataset.src || "";
+            img.onload = () => {
+              img.classList.add(styles.loaded);
+            };
+            observer.unobserve(img);
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+
+    imageRefs.current
+      .filter((img) => img !== null)
+      .forEach((img) => {
+        observer.observe(img);
+      });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [sortedProducts]);
+
   const renderSortDropdown = () => (
     <div className={styles.dropdown}>
       {sortOptions.map((option, index) => (
@@ -108,18 +138,6 @@ const ProductPagination = () => {
       ))}
     </div>
   );
-
-  // const handlePreviousPage = () => {
-  //   if (currentPage > 1) {
-  //     navigate(`/?currentPage=${currentPage + 1}`);
-  //   }
-  // };
-
-  // const handleNextPage = () => {
-  //   if (currentPage < totalPages) {
-  //     navigate(`/?currentPage=${currentPage + 1}`);
-  //   }
-  // };
 
   return (
     <div className={styles.container}>
@@ -167,36 +185,36 @@ const ProductPagination = () => {
       {!isMobile && <Filter />}
 
       <div className={`${styles.products} ${isMobile ? styles.mobile : ""}`}>
-        {sortedProducts
-          .slice(0, 9)
-          .map((product: Product, productIndex: number) => (
-            <div className={styles.gridItem} key={productIndex}>
-              <div className={`${styles.img} ${styles.hoverEffect}`}>
-                {product.bestseller && (
-                  <p className={styles.bestsellerBadge}>Best seller</p>
-                )}
-                <img
-                  src={product.image.src}
-                  alt={product.image.alt}
-                  width={300}
-                  height={390}
-                />
-                <button
-                  className={styles.addToCartBtn}
-                  onClick={() => handleAddToCart(product._id)}
-                >
-                  ADD TO CART
-                </button>
-              </div>
-              <h4>{product.category}</h4>
-              <h3>{product.name}</h3>
-              <p>${product.price}</p>
+        {sortedProducts.map((product: Product, productIndex: number) => (
+          <div className={styles.gridItem} key={productIndex}>
+            <div className={`${styles.img} ${styles.hoverEffect}`}>
+              {product.bestseller && (
+                <p className={styles.bestsellerBadge}>Best seller</p>
+              )}
+              <img
+                src=""
+                data-src={product.image.src}
+                alt={product.image.alt}
+                width={300}
+                height={390}
+                ref={(el) => (imageRefs.current[productIndex] = el)}
+              />
+              <button
+                className={styles.addToCartBtn}
+                onClick={() => handleAddToCart(product._id)}
+              >
+                ADD TO CART
+              </button>
             </div>
-          ))}
+            <h4>{product.category}</h4>
+            <h3>{product.name}</h3>
+            <p>${product.price}</p>
+          </div>
+        ))}
         <div className={styles.pagination}>
           {currentPage > 1 && (
             <button
-              onClick={() => console.log("handle prev page")}
+              onClick={() => setCurrentPage(currentPage - 1)}
               className={styles.chevronButton}
             >
               <img
@@ -214,12 +232,7 @@ const ProductPagination = () => {
                   currentPage === pageNumber ? styles.activePageButton : ""
                 }`}
                 key={pageNumber}
-                // onClick={() =>
-                //   navigate(
-                //     pageNumber === 1 ? "/" : `/?currentPage=${pageNumber}`,
-                //     undefined
-                //   )
-                //}
+                onClick={() => setCurrentPage(pageNumber)}
               >
                 {pageNumber}
               </button>
@@ -227,7 +240,7 @@ const ProductPagination = () => {
           )}
           {currentPage < totalPages && (
             <button
-              onClick={() => console.log("next page")}
+              onClick={() => setCurrentPage(currentPage + 1)}
               className={styles.chevronButton}
             >
               <img

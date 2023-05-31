@@ -18,51 +18,6 @@ const priceList = [
   { label: "More than $200", min: 200, max: Infinity },
 ];
 const Filter = () => {
-  const { fetchProductsData, page, limit, sortType, sortOrder } = productsStore(
-    (state: any) => ({
-      fetchProductsData: state.fetchProductsData,
-      page: state.page,
-      limit: state.limit,
-      sortType: state.sortType,
-      sortOrder: state.sortOrder,
-    })
-  );
-
-  const [categories, setCategories] = useState<string[]>([]);
-  const [minPrice, setMinPrice] = useState<number | null>(null);
-  const [maxPrice, setMaxPrice] = useState<number | null>(null);
-  const [selectedPriceRange, setSelectedPriceRange] = useState<string | null>(
-    null
-  );
-
-  const handleCategoryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const category = event.target.name;
-
-    if (event.target.checked) {
-      setCategories([...categories, category]);
-    } else {
-      setCategories(categories.filter((c) => c !== category));
-    }
-  };
-
-  const handlePriceChange = (priceLabel: string, min: number, max: number) => {
-    setSelectedPriceRange(priceLabel);
-    setMinPrice(min);
-    setMaxPrice(max);
-  };
-
-  useEffect(() => {
-    fetchProductsData(
-      page,
-      limit,
-      sortType,
-      sortOrder,
-      categories,
-      minPrice,
-      maxPrice
-    );
-  }, [page, limit, sortType, sortOrder, categories, minPrice, maxPrice]);
-
   return (
     <div className={styles.filterContainer}>
       <div className={styles.filterSection}>
@@ -74,12 +29,7 @@ const Filter = () => {
               className={styles.checkboxLabel}
               htmlFor={category}
             >
-              <input
-                type="checkbox"
-                id={category}
-                name={category}
-                onChange={handleCategoryChange}
-              />
+              <input type="checkbox" id={category} name={category} />
               {category}
             </label>
           ))}
@@ -90,13 +40,7 @@ const Filter = () => {
         <div className={styles.checkboxContainer}>
           {priceList.map((price) => (
             <label key={price.label} className={styles.priceLabel}>
-              <input
-                type="checkbox"
-                checked={selectedPriceRange === price.label}
-                onChange={() =>
-                  handlePriceChange(price.label, price.min, price.max)
-                }
-              />
+              <input type="checkbox" checked={false} />
               {price.label}
             </label>
           ))}

@@ -24,6 +24,14 @@ dataFetch.interceptors.response.use(
   }
 );
 
+const handleError = (error: Error | any, set: Function) => {
+  if (error.response) {
+    set({ error: HttpStatus.getStatusText(error.response.status) });
+  } else {
+    set({ error: error.message });
+  }
+};
+
 const productsStore = create<StoreState>((set) => ({
   data: [],
   cart: [],
@@ -37,20 +45,13 @@ const productsStore = create<StoreState>((set) => ({
     page = 1,
     limit = 6,
     sortType = "Price",
-    sortOrder = "Ascending",
-    categories: string[] = [],
-    minPrice: number = 0,
-    maxPrice: number = Infinity
+    sortOrder = "Ascending"
   ) => {
     try {
       set({ loading: true });
-      const categoryQuery = categories.length
-        ? `&categories=${categories.join(",")}`
-        : "";
-      const priceQuery = `&minPrice=${minPrice}&maxPrice=${maxPrice}`;
 
       const response = await dataFetch.get(
-        `${url}?page=${page}&limit=${limit}&sortType=${sortType}&sortOrder=${sortOrder}${categoryQuery}${priceQuery}`
+        `${url}?page=${page}&limit=${limit}&sortType=${sortType}&sortOrder=${sortOrder}`
       );
 
       set({
@@ -59,12 +60,8 @@ const productsStore = create<StoreState>((set) => ({
         page,
         totalPages: response.data.totalPages,
       });
-    } catch (error: Error | any) {
-      if (error.response) {
-        set({ error: HttpStatus.getStatusText(error.response.status) });
-      } else {
-        set({ error: error.message });
-      }
+    } catch (error) {
+      handleError(error, set);
     } finally {
       set({ loading: false });
     }
@@ -164,7 +161,6 @@ const productsStore = create<StoreState>((set) => ({
   clearCart: async () => {
     try {
       set({ loading: true });
-
       const response = await dataFetch.delete(`${url2}?clearAll=true`);
 
       if (response.status !== HttpStatus.OK) {
@@ -172,7 +168,6 @@ const productsStore = create<StoreState>((set) => ({
       }
 
       console.log("Cart cleared");
-
       set({ cart: [] });
     } catch (error: Error | any) {
       if (error.response) {
