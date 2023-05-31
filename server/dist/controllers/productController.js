@@ -58,9 +58,6 @@ const getAllProducts = (req, res) => __awaiter(void 0, void 0, void 0, function*
         else if (error instanceof errors_1.BadRequestError) {
             res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).send(error.message);
         }
-        else if (error instanceof errors_1.UnauthenticatedError) {
-            res.status(http_status_codes_1.StatusCodes.UNAUTHORIZED).send(error.message);
-        }
         else {
             res
                 .status(http_status_codes_1.StatusCodes.INTERNAL_SERVER_ERROR)

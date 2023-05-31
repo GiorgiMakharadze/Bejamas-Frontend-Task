@@ -1,10 +1,6 @@
 import { Response, Request } from "express";
 import { StatusCodes } from "http-status-codes";
-import {
-  BadRequestError,
-  UnauthenticatedError,
-  NotFoundError,
-} from "../errors";
+import { BadRequestError, NotFoundError } from "../errors";
 import { ProductModel } from "../models/products";
 
 export const getAllProducts = async (req: Request, res: Response) => {
@@ -58,8 +54,6 @@ export const getAllProducts = async (req: Request, res: Response) => {
       res.status(StatusCodes.NOT_FOUND).send(error.message);
     } else if (error instanceof BadRequestError) {
       res.status(StatusCodes.BAD_REQUEST).send(error.message);
-    } else if (error instanceof UnauthenticatedError) {
-      res.status(StatusCodes.UNAUTHORIZED).send(error.message);
     } else {
       res
         .status(StatusCodes.INTERNAL_SERVER_ERROR)
