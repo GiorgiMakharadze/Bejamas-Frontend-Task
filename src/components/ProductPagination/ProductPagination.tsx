@@ -28,7 +28,6 @@ const ProductPagination = () => {
 
   const sortOptions = ["Price", "Alphabetically"];
 
-  const navigate = useNavigate();
   const totalPages = 4;
 
   useEffect(() => {
@@ -111,17 +110,17 @@ const ProductPagination = () => {
     </div>
   );
 
-  const handlePreviousPage = () => {
-    if (currentPage > 1) {
-      navigate(`/?currentPage=${currentPage + 1}`);
-    }
-  };
+  // const handlePreviousPage = () => {
+  //   if (currentPage > 1) {
+  //     navigate(`/?currentPage=${currentPage + 1}`);
+  //   }
+  // };
 
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      navigate(`/?currentPage=${currentPage + 1}`);
-    }
-  };
+  // const handleNextPage = () => {
+  //   if (currentPage < totalPages) {
+  //     navigate(`/?currentPage=${currentPage + 1}`);
+  //   }
+  // };
 
   return (
     <div className={styles.container}>
@@ -198,7 +197,7 @@ const ProductPagination = () => {
         <div className={styles.pagination}>
           {currentPage > 1 && (
             <button
-              onClick={handlePreviousPage}
+              onClick={() => console.log("handle prev page")}
               className={styles.chevronButton}
             >
               <img
@@ -216,19 +215,22 @@ const ProductPagination = () => {
                   currentPage === pageNumber ? styles.activePageButton : ""
                 }`}
                 key={pageNumber}
-                onClick={() =>
-                  navigate(
-                    pageNumber === 1 ? "/" : `/?currentPage=${pageNumber}`,
-                    undefined
-                  )
-                }
+                // onClick={() =>
+                //   navigate(
+                //     pageNumber === 1 ? "/" : `/?currentPage=${pageNumber}`,
+                //     undefined
+                //   )
+                //}
               >
                 {pageNumber}
               </button>
             )
           )}
           {currentPage < totalPages && (
-            <button onClick={handleNextPage} className={styles.chevronButton}>
+            <button
+              onClick={() => console.log("next page")}
+              className={styles.chevronButton}
+            >
               <img
                 src={chevronright}
                 alt="chevron left icon"

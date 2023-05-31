@@ -2,6 +2,7 @@ import express from "express";
 import "dotenv/config";
 import "express-async-errors";
 import morgan from "morgan";
+import cors from "cors";
 import helmet from "helmet";
 import xss from "xss-clean";
 import mongoSanitize from "express-mongo-sanitize";
@@ -18,6 +19,7 @@ if (process.env.NODE_ENV !== "production") {
 }
 app.use(express.json());
 app.use(helmet());
+app.use(cors());
 app.use(xss());
 app.use(mongoSanitize());
 

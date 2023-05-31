@@ -1,14 +1,18 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import productsStore from "../../store";
 import CartProducts from "../Header/cartProducts";
 import FeaturedBadge from "./FeatureaedBadge";
 import styles from "./FeaturedProducts.module.scss";
-
-const FeaturedProducts = ({ featuredProduct }: any) => {
+const FeaturedProducts = () => {
   const [showCart, setShowCart] = useState(false);
 
-  const { details } = featuredProduct;
-  const { addToCart } = productsStore();
+  const { featuredProduct, addToCart, fetchFeaturedProduct } = productsStore();
+
+  useEffect(() => {
+    fetchFeaturedProduct();
+  }, []);
+
+  const { details } = featuredProduct || {};
 
   const handleAddToCart = async (featuredProductId: any) => {
     await addToCart(featuredProductId);

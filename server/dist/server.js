@@ -16,6 +16,7 @@ const express_1 = __importDefault(require("express"));
 require("dotenv/config");
 require("express-async-errors");
 const morgan_1 = __importDefault(require("morgan"));
+const cors_1 = __importDefault(require("cors"));
 const helmet_1 = __importDefault(require("helmet"));
 const xss_clean_1 = __importDefault(require("xss-clean"));
 const express_mongo_sanitize_1 = __importDefault(require("express-mongo-sanitize"));
@@ -30,6 +31,7 @@ if (process.env.NODE_ENV !== "production") {
 }
 app.use(express_1.default.json());
 app.use((0, helmet_1.default)());
+app.use((0, cors_1.default)());
 app.use((0, xss_clean_1.default)());
 app.use((0, express_mongo_sanitize_1.default)());
 //routes
