@@ -39,6 +39,7 @@ app.use(helmet_1.default.contentSecurityPolicy({
 app.use((0, cors_1.default)());
 app.use((0, xss_clean_1.default)());
 app.use((0, express_mongo_sanitize_1.default)());
+<<<<<<< HEAD
 // app.use(express.static(path.resolve("../build")));
 //routes
 app.use("/api/v1/products", productRoutes_1.default);
@@ -50,6 +51,19 @@ app.use("/api/v1/cart", cartRoutes_1.default);
 // app.get("*", (req, res) => {
 //   res.sendFile(path.join(__dirnames, "../build", "index.html"));
 // });
+=======
+app.use(express_1.default.static(path_1.default.resolve("../build")));
+//routes
+app.use("/api/v1/products", productRoutes_1.default);
+app.use("/api/v1/cart", cartRoutes_1.default);
+app.post("/csp-violation", (req, res) => {
+    console.warn("CSP Violation:", req.body);
+    res.status(204).end();
+});
+app.get("*", (req, res) => {
+    res.sendFile(path_1.default.join(__dirnames, "../build", "index.html"));
+});
+>>>>>>> 6c27b98da0d7a80dd2db23c481919fda8f1894b3
 // error handling
 app.use(middleware_1.notFoundMiddleware);
 app.use(middleware_1.errorHandlerMiddleware);
