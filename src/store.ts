@@ -5,11 +5,7 @@ import { StoreState } from "./types/zustandTypes";
 import { Product } from "./types/productTypes";
 
 const dataFetch = axios.create({
-<<<<<<< HEAD
   baseURL: `${process.env.REACT_APP_DEPLOYMENT_PORT}/api/v1`,
-=======
-  baseURL: `https://bejamas-front-end.onrender.com/api/v1`,
->>>>>>> 6c27b98da0d7a80dd2db23c481919fda8f1894b3
 });
 
 let url = `/products`;
