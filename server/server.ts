@@ -4,7 +4,6 @@ import "dotenv/config";
 import "express-async-errors";
 import morgan from "morgan";
 import cors from "cors";
-import helmet from "helmet";
 import xss from "xss-clean";
 import mongoSanitize from "express-mongo-sanitize";
 import { notFoundMiddleware, errorHandlerMiddleware } from "./middleware/";
@@ -20,14 +19,7 @@ if (process.env.NODE_ENV !== "production") {
   app.use(morgan("dev"));
 }
 app.use(express.json());
-app.use(
-  helmet.contentSecurityPolicy({
-    directives: {
-      ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-      "img-src": ["'self'", "data:", "https://res.cloudinary.com"],
-    },
-  })
-);
+
 app.use(cors());
 app.use(xss());
 app.use(mongoSanitize());

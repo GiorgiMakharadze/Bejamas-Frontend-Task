@@ -16,13 +16,13 @@ Create, mongoDb database and project, then download and run npm install, then cr
 
 ```bash
 PORT=
-MONGO_URL=
+MONGODB_URL=
 ```
 
 Mongo url example:
 
 ```bash
-MONGO_URL=mongodb+srv://giorgi:yourClusterPassword@yourClusterName.zi9vxpj.mongodb.net/yourDatabaseName?retryWrites=true&w=majority
+MONGODB_URL=mongodb+srv://giorgi:yourClusterPassword@yourClusterName.zi9vxpj.mongodb.net/yourDatabaseName?retryWrites=true&w=majority
 ```
 
 then run npm start.
