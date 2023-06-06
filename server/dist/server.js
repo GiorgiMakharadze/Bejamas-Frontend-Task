@@ -18,7 +18,6 @@ require("dotenv/config");
 require("express-async-errors");
 const morgan_1 = __importDefault(require("morgan"));
 const cors_1 = __importDefault(require("cors"));
-const helmet_1 = __importDefault(require("helmet"));
 const xss_clean_1 = __importDefault(require("xss-clean"));
 const express_mongo_sanitize_1 = __importDefault(require("express-mongo-sanitize"));
 const middleware_1 = require("./middleware/");
@@ -33,9 +32,6 @@ if (process.env.NODE_ENV !== "production") {
     app.use((0, morgan_1.default)("dev"));
 }
 app.use(express_1.default.json());
-app.use(helmet_1.default.contentSecurityPolicy({
-    directives: Object.assign(Object.assign({}, helmet_1.default.contentSecurityPolicy.getDefaultDirectives()), { "img-src": ["'self'", "data:", "https://res.cloudinary.com"] }),
-}));
 app.use((0, cors_1.default)());
 app.use((0, xss_clean_1.default)());
 app.use((0, express_mongo_sanitize_1.default)());
